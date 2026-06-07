@@ -33,6 +33,11 @@ func NewRouter() *gin.Engine {
 		api.GET("/workout-templates/:id", workoutHandler.GetTemplate)
 		api.PUT("/workout-templates/:id", workoutHandler.UpdateTemplate)
 		api.DELETE("/workout-templates/:id", workoutHandler.DeleteTemplate)
+
+		scheduleHandler := NewScheduleHandler()
+		api.POST("/schedules", scheduleHandler.SetSchedule)
+		api.GET("/schedules", scheduleHandler.GetSchedules)
+		api.DELETE("/schedules/:day", scheduleHandler.DeleteSchedule)
 	}
 
 	return r
