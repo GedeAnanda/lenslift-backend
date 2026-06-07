@@ -12,7 +12,7 @@ import (
 
 type ScheduleService struct {
 	scheduleRepo *repository.ScheduleRepository
-	workoutRepo  *repository.WorkoutRepository
+	workoutRepo *repository.WorkoutRepository
 }
 
 func NewScheduleService() *ScheduleService {
@@ -49,29 +49,29 @@ func (s *ScheduleService) SetSchedule(userID string, req dto.ScheduleRequest) (*
 			ID:        existing.ID.String(),
 			DayOfWeek: existing.DayOfWeek,
 			Template: dto.WorkoutTemplateListResponse{
-				ID:          template.ID.String(),
-				Name:        template.Name,
+				ID: template.ID.String(),
+				Name: template.Name,
 				Description: template.Description,
 			},
 		}, nil
 	}
 
 	schedule := &model.GymSchedule{
-		UserID:     userUUID,
+		UserID: userUUID,
 		TemplateID: templateUUID,
-		DayOfWeek:  req.DayOfWeek,
-		IsActive:   true,
+		DayOfWeek: req.DayOfWeek,
+		IsActive: true,
 	}
 	if err := s.scheduleRepo.Create(schedule); err != nil {
 		return nil, err
 	}
 
 	return &dto.ScheduleResponse{
-		ID:        schedule.ID.String(),
+		ID: schedule.ID.String(),
 		DayOfWeek: schedule.DayOfWeek,
 		Template: dto.WorkoutTemplateListResponse{
-			ID:          template.ID.String(),
-			Name:        template.Name,
+			ID: template.ID.String(),
+			Name: template.Name,
 			Description: template.Description,
 		},
 	}, nil
@@ -89,8 +89,8 @@ func (s *ScheduleService) GetSchedules(userID string) ([]dto.ScheduleResponse, e
 			ID:        sc.ID.String(),
 			DayOfWeek: sc.DayOfWeek,
 			Template: dto.WorkoutTemplateListResponse{
-				ID:          sc.Template.ID.String(),
-				Name:        sc.Template.Name,
+				ID: sc.Template.ID.String(),
+				Name: sc.Template.Name,
 				Description: sc.Template.Description,
 			},
 		})

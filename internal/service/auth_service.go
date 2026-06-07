@@ -14,13 +14,13 @@ import (
 )
 
 type AuthService struct {
-	userRepo    *repository.UserRepository
+	userRepo *repository.UserRepository
 	profileRepo *repository.ProfileRepository
 }
 
 func NewAuthService() *AuthService {
 	return &AuthService{
-		userRepo:    repository.NewUserRepository(),
+		userRepo: repository.NewUserRepository(),
 		profileRepo: repository.NewProfileRepository(),
 	}
 }
@@ -40,7 +40,7 @@ func (s *AuthService) Register(req dto.RegisterRequest) (*dto.AuthResponse, erro
 	}
 
 	user := &model.User{
-		Email:        req.Email,
+		Email: req.Email,
 		PasswordHash: string(hash),
 	}
 	if err := s.userRepo.Create(user); err != nil {
@@ -48,7 +48,7 @@ func (s *AuthService) Register(req dto.RegisterRequest) (*dto.AuthResponse, erro
 	}
 
 	profile := &model.Profile{
-		UserID:   user.ID,
+		UserID:user.ID,
 		FullName: req.FullName,
 	}
 	if err := s.profileRepo.Create(profile); err != nil {
@@ -63,9 +63,9 @@ func (s *AuthService) Register(req dto.RegisterRequest) (*dto.AuthResponse, erro
 	return &dto.AuthResponse{
 		AccessToken: token,
 		User: dto.UserProfile{
-			ID:       user.ID.String(),
+			ID: user.ID.String(),
 			FullName: req.FullName,
-			Email:    user.Email,
+			Email: user.Email,
 		},
 	}, nil
 }
@@ -95,9 +95,9 @@ func (s *AuthService) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
 	return &dto.AuthResponse{
 		AccessToken: token,
 		User: dto.UserProfile{
-			ID:       user.ID.String(),
+			ID: user.ID.String(),
 			FullName: fullName,
-			Email:    user.Email,
+			Email: user.Email,
 		},
 	}, nil
 }
@@ -105,7 +105,7 @@ func (s *AuthService) Login(req dto.LoginRequest) (*dto.AuthResponse, error) {
 func generateToken(userID string) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userID,
-		"exp":     time.Now().Add(7 * 24 * time.Hour).Unix(),
+		"exp": time.Now().Add(7 * 24 * time.Hour).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(os.Getenv("JWT_SECRET")))

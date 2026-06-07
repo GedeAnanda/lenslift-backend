@@ -38,6 +38,13 @@ func NewRouter() *gin.Engine {
 		api.POST("/schedules", scheduleHandler.SetSchedule)
 		api.GET("/schedules", scheduleHandler.GetSchedules)
 		api.DELETE("/schedules/:day", scheduleHandler.DeleteSchedule)
+
+		sessionHandler := NewSessionHandler()
+		api.POST("/sessions/start", sessionHandler.StartSession)
+		api.POST("/sessions/:id/log", sessionHandler.LogSet)
+		api.POST("/sessions/:id/end", sessionHandler.EndSession)
+		api.GET("/sessions", sessionHandler.GetAllSessions)
+		api.GET("/sessions/:id", sessionHandler.GetSession)
 	}
 
 	return r
