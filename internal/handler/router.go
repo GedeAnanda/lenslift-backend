@@ -45,6 +45,12 @@ func NewRouter() *gin.Engine {
 		api.POST("/sessions/:id/end", sessionHandler.EndSession)
 		api.GET("/sessions", sessionHandler.GetAllSessions)
 		api.GET("/sessions/:id", sessionHandler.GetSession)
+
+		foodHandler := NewFoodHandler()
+		api.POST("/food-logs", foodHandler.AddFoodLog)
+		api.POST("/food-logs/analyze", foodHandler.AnalyzeFood)
+		api.GET("/food-logs", foodHandler.GetDailyLogs)
+		api.DELETE("/food-logs/:id", foodHandler.DeleteFoodLog)
 	}
 
 	return r
