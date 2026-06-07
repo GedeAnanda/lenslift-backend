@@ -8,7 +8,7 @@ import (
 
 type WorkoutTemplate struct { 
 	ID uuid.UUID `gorm:"type:uuid;primaryKey;default:gen_random_uuid()"`
-	UserId uuid.UUID `gorm:"type:uuid;index;not null"`
+	UserID uuid.UUID `gorm:"type:uuid;index;not null"`
 	Name string `gorm:"size:100;not null"`
 	Description string `gorm:"type:text"`
 	CreatedAt time.Time `gorm:"autoCreateTime"`
