@@ -51,6 +51,12 @@ func NewRouter() *gin.Engine {
 		api.POST("/food-logs/analyze", foodHandler.AnalyzeFood)
 		api.GET("/food-logs", foodHandler.GetDailyLogs)
 		api.DELETE("/food-logs/:id", foodHandler.DeleteFoodLog)
+
+		bodyWeightHandler := NewBodyWeightHandler()
+		api.POST("/body-weights", bodyWeightHandler.LogWeight)
+		api.GET("/body-weights", bodyWeightHandler.GetHistory)
+		api.GET("/body-weights/latest", bodyWeightHandler.GetLatest)
+		api.DELETE("/body-weights/:id", bodyWeightHandler.DeleteWeight)
 	}
 
 	return r
